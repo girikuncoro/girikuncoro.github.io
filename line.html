@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+body {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+
+.x.axis path {
+  display: none;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2.5px;
+}  
+.private {
+    stroke: red;
+}
+
+.public {
+    stroke: steelblue;
+}
+
+.sec {
+    stroke: #B25329;
+}
+
+.elem {
+    stroke: #55B2A6;
+}
+
+h1 {
+    padding-top: 30px;
+}
+
+p {
+    font-size: 14px;
+}
+
+.legend rect {
+  fill:white;
+  stroke:black;
+  opacity:0.8;
+}
+
+
+
+
+</style>
+<body>
+<script src="http://d3js.org/d3.v3.js"></script>
+<script src="d3.legend.js"></script>
+
+<div>
+    <h1>Enrollment in Public and Private Schools in the US (1889-2021*)</h1>
+    <p>* Projected</p>
+<script>
+
+var margin = {top: 20, right: 20, bottom: 30, left: 50},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+var x = d3.scale.linear()
+    .range([0, width]);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom")
+    .tickFormat(d3.format("d"));
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
+
+var line_private = d3.svg.line()
+    .x(function(d) { return x(d.Year); })
+    .y(function(d) { return y(d.Private); });
+    
+var line_public = d3.svg.line()
+    .x(function(d) { return x(d.Year); })
+    .y(function(d) { return y(d.Public); });
+
+var svg_both = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.json("Dataset/private_vs_public.json", function(error, data) {
+  data.forEach(function(d) {
+    d.Year = +d.Year;
+    d.Private = +d.Private;
+    d.Public = +d.Public;
+  });
+
+  x.domain(d3.extent(data, function(d) { return d.Year; }));
+  y.domain([0,
+            d3.max(data, function(d) { return d.Public; })]);
+
+  svg_both.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+  svg_both.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+      .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Students (in thousands)");
+      
+  svg_both.append("path")
+      .datum(data)
+      .attr("class", "line private")
+      .attr("data-legend", "Private")
+      .attr("d", line_private);
+      
+  svg_both.append("path")
+      .datum(data)
+      .attr("class", "line public")
+      .attr("data-legend", "Public")
+      .attr("d", line_public);
+      
+  svg_both.append("g")
+    .attr("class","legend")
+    .attr("transform","translate(50,30)")
+    .style("font-size","12px")
+    .call(d3.legend);
+
+});
+
+</script>
+</div>
+
+<div>
+    <h1>Enrollment in Private Schools in the US (1889-2021*)</h1>
+    <p>* Projected</p>
+<script>
+
+var svg_private = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.json("Dataset/private_vs_public.json", function(error, data) {
+  data.forEach(function(d) {
+    d.Year = +d.Year;
+    d.Private = +d.Private;
+  });
+
+  x.domain(d3.extent(data, function(d) { return d.Year; }));
+  y.domain([0,
+            d3.max(data, function(d) { return d.Private; })]);
+
+  svg_private.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+  svg_private.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+      .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Students (in thousands)");
+
+  svg_private.append("path")
+      .datum(data)
+      .attr("class", "line private")
+      .attr("d", line_private);
+});
+    
+</script>
+</div>
+
+<div>
+    <h1>Enrollment in Private Schools in the US (1889-2021*)</h1>
+    <p>* Projected</p>
+<script>
+
+var svg_public = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.json("Dataset/private_vs_public.json", function(error, data) {
+  data.forEach(function(d) {
+    d.Year = +d.Year;
+    d.Private = +d.Private;
+  });
+
+  x.domain(d3.extent(data, function(d) { return d.Year; }));
+  y.domain([0,
+            d3.max(data, function(d) { return d.Public; })]);
+
+  svg_public.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+  svg_public.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+      .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Students (in thousands)");
+
+  svg_public.append("path")
+      .datum(data)
+      .attr("class", "line public")
+      .attr("d", line_public);
+});
+    
+</script>
+</div>
+
+<div>
+    <h1>Enrollment in Public Elementary and Secondary Schools (1889-2021*)</h1>
+    <p>* Projected</p>
+<script>
+    
+var line_public_elem = d3.svg.line()
+    .x(function(d) { return x(d.Year); })
+    .y(function(d) { return y(d.PublicElem); });
+
+var line_public_sec = d3.svg.line()
+    .x(function(d) { return x(d.Year); })
+    .y(function(d) { return y(d.PublicSec); });
+
+var svg_public_grades = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.json("Dataset/private_vs_public.json", function(error, data) {
+  data.forEach(function(d) {
+    d.Year = +d.Year;
+    d.PublicElem = +d.PublicElem;
+    d.PublicSec = +d.PublicSec;
+  });
+
+  x.domain(d3.extent(data, function(d) { return d.Year; }));
+  y.domain([0,
+            d3.max(data, function(d) { return d.PublicElem; })]);
+
+  svg_public_grades.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+  svg_public_grades.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+      .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Students (in thousands)");
+
+  svg_public_grades.append("path")
+      .datum(data)
+      .attr("class", "line sec")
+      .attr("data-legend", "Secondary")
+      .attr("d", line_public_sec);
+      
+  svg_public_grades.append("path")
+      .datum(data)
+      .attr("class", "line elem")
+      .attr("data-legend", "Elementary")
+      .attr("d", line_public_elem);
+      
+  svg_public_grades.append("g")
+    .attr("class","legend")
+    .attr("transform","translate(50,30)")
+    .style("font-size","12px")
+    .call(d3.legend);
+});
+
+</script>
+</div>
+
+
+<div>
+    <h1>Enrollment in Private Elementary and Secondary Schools (1889-2021*)</h1>
+    <p>* Projected</p>
+<script>
+    
+var line_private_elem = d3.svg.line()
+    .x(function(d) { return x(d.Year); })
+    .y(function(d) { return y(d.PrivateElem); });
+
+var line_private_sec = d3.svg.line()
+    .x(function(d) { return x(d.Year); })
+    .y(function(d) { return y(d.PrivateSec); });
+
+var svg_private_grades = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.json("Dataset/private_vs_public.json", function(error, data) {
+  data.forEach(function(d) {
+    d.Year = +d.Year;
+    d.PrivateElem = +d.PrivateElem;
+    d.PrivateSec = +d.PrivateSec;
+  });
+
+  x.domain(d3.extent(data, function(d) { return d.Year; }));
+  y.domain([0,
+            d3.max(data, function(d) { return d.PrivateElem; })]);
+
+  svg_private_grades.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+  svg_private_grades.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+      .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Students (in thousands)");
+
+  svg_private_grades.append("path")
+      .datum(data)
+      .attr("class", "line sec")
+      .attr("data-legend", "Secondary")
+      .attr("d", line_private_sec);
+      
+  svg_private_grades.append("path")
+      .datum(data)
+      .attr("class", "line elem")
+      .attr("data-legend", "Elementary")
+      .attr("d", line_private_elem);
+      
+  svg_private_grades.append("g")
+    .attr("class","legend")
+    .attr("transform","translate(50,30)")
+    .style("font-size","12px")
+    .call(d3.legend);
+});
+
+</script>
+</div>
+
+
+<div>
+    <h1>Enrollment in Public and Private Elementary Schools (1889-2021*)</h1>
+    <p>* Projected</p>
+<script>
+
+var svg_elem = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.json("Dataset/private_vs_public.json", function(error, data) {
+  data.forEach(function(d) {
+    d.Year = +d.Year;
+    d.PrivateElem = +d.PrivateElem;
+    d.PublicElem = +d.PublicElem;
+  });
+
+  x.domain(d3.extent(data, function(d) { return d.Year; }));
+  y.domain([0,
+            d3.max(data, function(d) { return d.PublicElem; })]);
+
+  svg_elem.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+  svg_elem.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+      .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Students (in thousands)");
+
+  svg_elem.append("path")
+      .datum(data)
+      .attr("class", "line private")
+      .attr("data-legend", "Private")
+      .attr("d", line_private_elem);
+      
+  svg_elem.append("path")
+      .datum(data)
+      .attr("class", "line public")
+      .attr("data-legend", "Public")
+      .attr("d", line_public_elem);
+      
+  svg_elem.append("g")
+    .attr("class","legend")
+    .attr("transform","translate(50,30)")
+    .style("font-size","12px")
+    .call(d3.legend);
+});
+
+</script>
+</div>
+
+<div>
+    <h1>Enrollment in Public and Private Secondary Schools (1889-2021*)</h1>
+    <p>* Projected</p>
+<script>
+
+var svg_sec = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.json("Dataset/private_vs_public.json", function(error, data) {
+  data.forEach(function(d) {
+    d.Year = +d.Year;
+    d.PrivateSec = +d.PrivateSec;
+    d.PublicSec = +d.PublicSec;
+  });
+
+  x.domain(d3.extent(data, function(d) { return d.Year; }));
+  y.domain([0,
+            d3.max(data, function(d) { return d.PublicSec; })]);
+
+  svg_sec.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+  svg_sec.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+      .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Students (in thousands)");
+
+  svg_sec.append("path")
+      .datum(data)
+      .attr("class", "line private")
+      .attr("data-legend", "Private")
+      .attr("d", line_private_sec);
+      
+  svg_sec.append("path")
+      .datum(data)
+      .attr("class", "line public")
+      .attr("data-legend", "Public")
+      .attr("d", line_public_sec);
+  svg_sec.append("g")
+    .attr("class","legend")
+    .attr("transform","translate(50,30)")
+    .style("font-size","12px")
+    .call(d3.legend);
+});
+
+</script>
+</div>
+
+
+
+

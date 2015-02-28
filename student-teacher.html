@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+.private_bar {
+  fill: #e377c2;
+}
+
+.public_bar {
+  fill: #1f77b4;
+}
+
+.axis {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.legend rect {
+  fill:white;
+  stroke:black;
+  opacity:0.8;
+}
+
+
+</style>
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="d3.legend.js"></script>
+<script>
+
+var margin = {top: 20, right: 20, bottom: 30, left: 40},
+    width = 1500 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .1);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    .tickFormat(function(d) { return d + "%"; });
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.json("Dataset/student-teacher.json", function(error, data) {
+    
+data.forEach(function(d) {
+    d.Year = +d.Year;
+    d.Private = +d.Private;
+    d.Public = +d.Public;
+  });
+  x.domain(data.map(function(d) { return d.Year; }));
+  y.domain([0, d3.max(data, function(d) { return d.Private; })]);
+
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end");
+      //.text("Frequency");
+
+  svg.selectAll(".public_bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "public_bar")
+      .attr("x", function(d) { return x(d.Year); })
+      .attr("width", x.rangeBand())
+      .attr("y", function(d) { return y(d.Public); })
+      .attr("height", function(d) { return height - y(d.Public); })
+      .attr("data-legend", "Public")
+      .style("opacity", "0.5");
+
+  svg.selectAll(".private_bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "private_bar")
+      .attr("x", function(d) { return x(d.Year); })
+      .attr("width", x.rangeBand())
+      .attr("y", function(d) { return y(d.Private); })
+      .attr("height", function(d) { return height - y(d.Private); })
+      .attr("data-legend", "Private")
+      .style("opacity", "0.5");
+
+svg.append("g")
+    .attr("class","legend")
+    .attr("transform","translate("+(width-100)+",30)")
+    .style("font-size","12px")
+    .call(d3.legend);
+    
+});
+
+</script>
