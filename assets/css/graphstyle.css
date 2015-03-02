@@ -1,0 +1,106 @@
+body {
+  font: 10px sans-serif;
+}
+
+svg {
+  padding: 10px 0 0 10px;
+}
+
+.arc {
+  stroke: #fff;
+}
+
+text, remark {
+  font: 10px Helvetica;
+}
+
+.axis {
+  shape-rendering: crispEdges;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2.5px;
+}  
+.private {
+    stroke: #364F54;
+}
+
+.sec {
+    stroke: #69F2C0;
+}
+
+.elem {
+    stroke: #55B2A6;
+}
+
+h1 {
+    padding-top: 30px;
+}
+
+p {
+    font-size: 14px;
+}
+
+
+.legend rect {
+  fill:white;
+  stroke:black;
+  opacity:0.8;
+  }
+
+.private_bar {
+  fill: #56C79E;
+}
+
+.public_bar {
+  fill: #5FDCF5;
+}
+
+#map_container {
+  padding-top: 50px;
+}
+
+.about p {
+  margin: 0 auto 0 auto;
+  width: 80%;
+}
+
+#note {
+  font-size: 15px;
+  padding-top: 15px;
+  padding-bottom: 70px;
+}
+
+
+#donut-wrapper {
+  padding-bottom: 80px;
+}
+
+#line_container {
+  padding-bottom: 80px;
+}
+
+#ratio_container {
+  padding-top: 80px;
+}
+
+#donut_wrapper h3 {
+  padding-top: 40px;
+}
+
+#donut_warpper {
+  padding-top: 0px;
+}
+

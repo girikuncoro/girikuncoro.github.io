@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>The Price of Education</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <!-- Giri's CSS -->
+    <style>
+    .arc {
+	  stroke: #fff;
+	}
+
+	text, remark {
+	  font: 10px Helvetica;
+	}
+
+	.axis {
+	  shape-rendering: crispEdges;
+	}
+
+	.axis path,
+	.axis line {
+	  fill: none;
+	  stroke: #000;
+	}
+    </style>
+
+    <!-- Custom styles for this template -->
+    <link href="assets/css/main.css" rel="stylesheet">
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet">
+    <link href="assets/css/graphstyle.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="assets/js/chart.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://d3js.org/queue.v1.min.js"></script>
+	<script src="http://d3js.org/topojson.v1.min.js"></script>
+	
+    <script src="assets/js/giri.js"></script>
+    <script src="assets/js/jenny.js"></script>
+    <script src="assets/js/yudi.js"></script>
+    <script src="assets/js/d3.legend.js"></script>
+
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <script>
+      $(document).ready(function(){
+		ratio_graph();
+		line_graph();
+		donut_race();
+		bubble_school();
+		hie_tuition();
+		us_map();
+      });
+    </script>
+
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">The Price of Private Education</a>
+        </div>
+        <div class="navbar-collapse collapse">
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+
+	<div id="hello">
+	    <div class="container">
+	    	<div class="row">
+	    		<div class="col-lg-8 col-lg-offset-2 centered">
+	    			<h1>The Price of Private Education</h1>
+	    			<h2>IS IT WORTH IT?</h2>
+	    		</div><!-- /col-lg-8 -->
+	    	</div><!-- /row -->
+	    </div> <!-- /container -->
+	</div><!-- /hello -->
+	
+	<div id="green">
+		<div class="container">
+			<div class="row">
+				<div class="centered about">
+					<h3>ABOUT THIS PROJECT</h3>
+					<p>We attempt to present information to help better understand private schools in the United States: why private schools are costly, and who are willing to send their children to private schools. Is private school worth the cost? Maybe you can get your own conclusion based on our visualizations.</p>
+					<p id="note">Note: we are only analyzing elementary and secondary private schools (not university-level eduation).</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="map_container">
+		<div class="container">
+			<div class="row">
+				<div class="centered">
+					<h3>AVERAGE TUITION OF PRIVATE SCHOOLS BY STATE (2014-15)</h3>
+					<div id="map">
+					  
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="hie_tuition_container">
+		<div class="container">
+			<div class="row">
+				<div class="centered">
+					<div id="hie_tuition">
+					  
+					</div>
+				<p class="source">Source: <a href="http://www.privateschoolreview.com/tuition-stats/private-school-cost-by-state/states">Private School Review</a></p>
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+    
+	<div id="skills">
+		<div class="container">
+			<div class="row">
+				<div class="centered">
+					<h3>NUMBER OF PRIVATE SCHOOLS BY STATE (2009)</h3>
+					<div id="bubbles">
+					  
+					</div>
+					<p class="source">Source: <a href="http://nces.ed.gov/programs/digest/d12/tables/dt12_074.asp">National Center for Education Statistics</a></p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="ratio_container">
+		<div class="container">
+			<div class="row">
+				<div class="centered">
+					<h3>STUDENT-TEACHER RATIO OF PRIVATE AND PUBLIC SCHOOLS (1955-2018*)</h3>
+					<p>* Projected</p>
+					<div id="ratio">
+					  
+					</div>
+					<p class="source">Source: <a href="http://nces.ed.gov/programs/digest/d09/tables/dt09_064.asp">National Center for Education Statistics</a></p>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="line_container">
+		<div class="row centered mt grid">
+			<h3>ENROLLMENT IN PUBLIC AND PRIVATE SCHOOLS IN THE US (1889-2021*)</h3>
+			<p>* Projected</p>
+			<div id="lines"></div>
+			<p class="source">Source: <a href="http://nces.ed.gov/programs/digest/d09/tables/dt09_064.asp">National Center for Education Statistics</a></p>
+
+		</div>
+	</div>
+
+
+	<div id="donut_wrapper">
+		<div class="container">
+			<div class="row centered">
+				<h3>PRIVATE SCHOOL ENROLLMENT BY RACE</h3>
+				<div id="donut1"></div>
+			<p class="source">Source: <a href="http://nces.ed.gov/surveys/sass/tables/sass1112_2013312_s2a_003.asp">National Center for Education Statistics</a></p>
+				<h3>PRIVATE SCHOOL ENROLLMENT BY GENDER</h3>
+				<div id="donut2"></div>
+			<p class="source">Source: <a href="http://nces.ed.gov/pubs2009/2009313.pdf">National Center for Education Statistics</a></p>
+
+			</div><!-- /row -->
+		</div><!-- /container -->
+	</div><!-- /skills -->
+
+	<div id="f">
+		<div class="container">
+			<div class="row">
+				<p>Created by Giri Kuncoro, Yudi He, Jenny (Yoon Jae) Kim :: 2015</p>
+			</div>
+		</div>
+	</div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="assets/js/bootstrap.js"></script>
+  </body>
+</html>
